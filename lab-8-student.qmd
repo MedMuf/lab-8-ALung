@@ -78,10 +78,10 @@ list output back into a data frame.
 ```{r}
 #| label: map-to-mutate-columns
 
-evals <- evals |>
-  bind_cols(map_at(.x, 
-                   c("teacher_id", "weekday", "academic_degree", "seniority", "gender"), 
-                   as.factor))
+bind_cols(
+  map_at(evals, c("teacher_id", "weekday", "academic_degree", "seniority", "sex"),
+         as.factor)
+  )
 
 ```
 
