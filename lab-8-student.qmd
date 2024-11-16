@@ -1,9 +1,21 @@
 ---
 title: "Lab 8: Searching for Efficiency"
-author: "Your name here!"
-format: html
+author: "Alex Lung"
+date: "11/17/2024"
+format: 
+  html:  
+    embed-resources: true
+    code-tools: true
+    theme: journal
 editor: source
 embed-resources: true
+execute: 
+  echo: true
+  error: true
+code-fold: true
+code-tools: true
+message: false
+warning: false
 ---
 
 ```{r}
@@ -44,6 +56,10 @@ each variable, with the datatype of that variable immediately below it's name.
 ```{r}
 #| label: map-data-types-of-surveys
 
+data.frame(rbind(map_chr(surveys, 
+                         typeof))
+           ) |>
+setNames(names(surveys))
 
 ```
 
@@ -62,6 +78,10 @@ list output back into a data frame.
 ```{r}
 #| label: map-to-mutate-columns
 
+evals <- evals |>
+  bind_cols(map_at(.x, 
+                   c("teacher_id", "weekday", "academic_degree", "seniority", "gender"), 
+                   as.factor))
 
 ```
 
