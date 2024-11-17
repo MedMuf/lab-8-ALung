@@ -80,16 +80,16 @@ list output back into a data frame.
 ```{r}
 #| label: map-to-mutate-columns
 
-evals_factored <- bind_cols(
-  map_at(evals, c("teacher_id", 
-                  "weekday", 
-                  "academic_degree", 
-                  "seniority", 
-                  "sex"),
-         as.factor)
-  )
 
-evals_factored
+evals_factored <- bind_cols(map_at(evals, c("teacher_id",
+                   "weekday",
+                   "academic_degree",
+                   "seniority",
+                   "sex"),
+                 as.factor)
+          )
+
+str(evals_factored)
 ```
 
 Next up, we're going revisit Question 7 which asked:
@@ -166,5 +166,10 @@ Question 1 asked you to use `across()` to make a table which summarized:
 ```{r}
 #| label: map-missing-values-of-fish
 
+fish |>
+  map_int(~sum(is.na(.x))) |>
+  kable(col.names = c("Variable Name", "Number of Missing Values")) |>
+
+  kable_styling(bootstrap_options = c("responsive"))
 
 ```
