@@ -58,10 +58,10 @@ each variable, with the datatype of that variable immediately below it's name.
 ```{r}
 #| label: map-data-types-of-surveys
 
+#Generate a table of the variables in the survey dataset and their variable type
 data.frame(rbind(map_chr(surveys, 
                          typeof))
-           ) |>
-setNames(names(surveys))
+           ) 
 
 ```
 
@@ -80,7 +80,7 @@ list output back into a data frame.
 ```{r}
 #| label: map-to-mutate-columns
 
-
+#Apply the as.factor function to the desired variables and back into a data frame. 
 evals_factored <- bind_cols(map_at(evals, c("teacher_id",
                    "weekday",
                    "academic_degree",
@@ -89,6 +89,7 @@ evals_factored <- bind_cols(map_at(evals, c("teacher_id",
                  as.factor)
           )
 
+str(evals_factored)
 ```
 
 Next up, we're going revisit Question 7 which asked:
@@ -115,16 +116,16 @@ I'm using the `sen_level` classification from Challenge 3
 #| label: double-pivot-for-summary-table
 
 evals |>
-  
+  #Make sure to get all the distinct teachers once, along with other variabels.
   distinct(teacher_id, 
            sex, 
            seniority, 
            academic_degree) |>
-  
+  #Create a new column to distinguish junior and senior professors.
   mutate(seniority_category = ifelse(seniority <= 4, 
                                      "junior", 
                                      "senior")) |>
-  
+  #Take the needed variables and order them to be associated to a unique professor
   pivot_longer(cols = c(sex, 
                         seniority_category, 
                         academic_degree),
@@ -132,14 +133,14 @@ evals |>
               values_to = "category") |>
 
   group_by(category) |>
-  
+  #Count the number of each varible
   summarize(total = n(), .groups = "drop") |>
   
   pivot_wider(
     names_from = category,
     values_from = total
   ) |>
-  
+  #Frame the column header to share the original table
   select(
     Female = female,
     Male = male,
