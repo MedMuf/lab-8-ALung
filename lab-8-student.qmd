@@ -89,7 +89,6 @@ evals_factored <- bind_cols(map_at(evals, c("teacher_id",
                  as.factor)
           )
 
-str(evals_factored)
 ```
 
 Next up, we're going revisit Question 7 which asked:
@@ -116,20 +115,31 @@ I'm using the `sen_level` classification from Challenge 3
 #| label: double-pivot-for-summary-table
 
 evals |>
-  distinct(teacher_id, sex, seniority, academic_degree) |>
-  mutate(seniority_category = ifelse(seniority <= 4, "junior", "senior")) |>
   
-  pivot_longer(cols = c(sex, seniority_category, academic_degree),
+  distinct(teacher_id, 
+           sex, 
+           seniority, 
+           academic_degree) |>
+  
+  mutate(seniority_category = ifelse(seniority <= 4, 
+                                     "junior", 
+                                     "senior")) |>
+  
+  pivot_longer(cols = c(sex, 
+                        seniority_category, 
+                        academic_degree),
               names_to = "category_type",
               values_to = "category") |>
 
   group_by(category) |>
+  
   summarize(total = n(), .groups = "drop") |>
+  
   pivot_wider(
     names_from = category,
-    values_from = total,
-    values_fill = 0
+    values_from = total
   ) |>
+  
   select(
     Female = female,
     Male = male,
@@ -140,6 +150,7 @@ evals |>
     Doctorate = dr,
     Professor = prof
   ) |>
+  
   kable() |>
 
   #https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html
@@ -168,6 +179,7 @@ Question 1 asked you to use `across()` to make a table which summarized:
 
 fish |>
   map_int(~sum(is.na(.x))) |>
+  
   kable(col.names = c("Variable Name", "Number of Missing Values")) |>
 
   kable_styling(bootstrap_options = c("responsive"))
