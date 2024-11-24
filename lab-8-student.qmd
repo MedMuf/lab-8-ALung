@@ -59,9 +59,8 @@ each variable, with the datatype of that variable immediately below it's name.
 #| label: map-data-types-of-surveys
 
 #Generate a table of the variables in the survey dataset and their variable type
-data.frame(rbind(map_chr(surveys, 
-                         typeof))
-           ) 
+map_chr(surveys,typeof)
+           
 
 ```
 
