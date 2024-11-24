@@ -59,11 +59,10 @@ each variable, with the datatype of that variable immediately below it's name.
 #| label: map-data-types-of-surveys
 
 #Generate a table of the variables in the survey dataset and their variable type
-map_chr(surveys,typeof)
-           
+bind_rows(map_chr(surveys, typeof))
 
 ```
-
+*Reflections: I found that the syntax I used was unknown and was my fault for not referencing it within the code. I was able to determine the bind_rows function served the purpose I needed while being a part of the ciriculum that we are studying. I need to be better in staying within our bounds.*
 ## Lab 3
 
 Now, were on to Lab 3 where we will revisit two questions. 
@@ -80,17 +79,13 @@ list output back into a data frame.
 #| label: map-to-mutate-columns
 
 #Apply the as.factor function to the desired variables and back into a data frame. 
-evals_factored <- bind_cols(map_at(evals, c("teacher_id",
-                   "weekday",
-                   "academic_degree",
-                   "seniority",
-                   "sex"),
-                 as.factor)
-          )
+evals_factored <- evals |>
+  mutate(across(c(teacher_id, weekday, academic_degree, seniority, sex), as.factor)) |>
+  bind_cols()
 
 str(evals_factored)
 ```
-
+*Reflection: As nested functions can be difficult to understand what is goind on with them, sometimes it is best to break it down into steps that are much easier to understand by the reader, even if it seems "less efficent".*
 Next up, we're going revisit Question 7 which asked:
 > What are the demographics of the instructors in this study? Investigate the
 > variables `academic_degree`, `seniority`, and `sex` and summarize your
